@@ -1,7 +1,65 @@
 import Logo from "../components/Logo";
 import addAvatar from "../assets/addAvatar.png";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db, storage } from "../firebase";
+import { useState } from "react";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const [err, setErr] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const displayName = e.target[0].value;
+    const email = e.target[1].value;
+    const password = e.target[2].value;
+    const file = e.target[3].files[0];
+
+    console.log(displayName);
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(res);
+
+      const storageRef = ref(storage, displayName);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        (error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+          setErr(true);
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            });
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL,
+            });
+
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/");
+          });
+        }
+      );
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setErr(true);
+    }
+  };
   return (
     <>
       <div className="register form-container">
@@ -10,22 +68,23 @@ const Register = () => {
             <Logo />
           </div>
           <div className="form-title">Register</div>
-          <form action="">
+          {err && <span>Something went wrong</span>}
+          <form action="" onSubmit={handleSubmit}>
             <input
               type="text"
-              name="fullname"
-              id="fullname"
+              name="displayName"
+              id="displayName"
               placeholder="Display Name"
             />
             <input type="email" name="email" id="email" placeholder="Email" />
             <input type="password" name="pwd" id="pwd" placeholder="Password" />
             <input
               type="file"
-              name="profile"
-              id="profile"
+              name="file"
+              id="file"
               style={{ display: "none" }}
             />
-            <label htmlFor="profile" className="avatar">
+            <label htmlFor="file" className="avatar">
               <img src={addAvatar} alt="" className="add-avatar" />
               <span>Add an avatar</span>
             </label>
@@ -34,7 +93,7 @@ const Register = () => {
             </div>
             <div className="account">
               Already have an account?
-              <a href="#">Login</a>
+              <Link to="/login">Login</Link>
             </div>
           </form>
         </div>

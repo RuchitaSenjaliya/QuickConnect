@@ -1,18 +1,107 @@
 import { MdAttachFile } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
+import {
+  Timestamp,
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { v4 as uuid } from "uuid";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export default function Input() {
+  const [text, setText] = useState("");
+  const [img, setImg] = useState(null);
+
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+
+  const handleSend = async () => {
+    if (!text) {
+      return;
+    }
+    if (img) {
+      const storageRef = ref(storage, uuid());
+      const uploadTask = uploadBytesResumable(storageRef, img);
+
+      uploadTask.on(
+        (error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+          setErr(true);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateDoc(doc(db, "chats", data.chatId), {
+              messages: arrayUnion({
+                id: uuid(),
+                text,
+                senderId: currentUser.uid,
+                date: Timestamp.now(),
+                img: downloadURL,
+              }),
+            });
+          });
+        }
+      );
+    } else {
+      await updateDoc(doc(db, "chats", data.chatId), {
+        messages: arrayUnion({
+          id: uuid(),
+          text,
+          senderId: currentUser.uid,
+          date: Timestamp.now(),
+        }),
+      });
+    }
+
+    await updateDoc(doc(db, "userChats", currentUser.uid), {
+      [data.chatId + ".lastMessage"]: { text },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: { text },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+    setText("");
+    setImg(undefined);
+  };
+
   return (
     <div className="input">
-      <input type="text" name="" id="" placeholder="Type Something..." />
+      <input
+        type="text"
+        name=""
+        id=""
+        placeholder="Type Something..."
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+      />
       <div className="send">
         <span>
           <MdAttachFile size={20} />
         </span>
-        <span>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          style={{ display: "none" }}
+          onChange={(e) => setImg(e.target.value)}
+          value={img}
+        />
+        <label htmlFor="file">
           <LuImagePlus size={20} />
-        </span>
-        <button className="btn-send">Send</button>
+        </label>
+
+        <button className="btn-send" onClick={handleSend}>
+          Send
+        </button>
       </div>
     </div>
   );
