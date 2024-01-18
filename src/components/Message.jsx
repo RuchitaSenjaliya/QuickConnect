@@ -1,14 +1,34 @@
-import dp1 from "../assets/dp-1.jpg";
-export default function Message() {
+import { useContext, useEffect, useRef } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
+
+export default function Message({ message }) {
+  const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+
+  const ref = useRef();
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
+
   return (
-    <div className="message owner">
+    <div
+      ref={ref}
+      className={`message ${message.senderId === currentUser.uid && "owner"}`}>
       <div className="msg-info">
-        <img src={dp1} alt="" />
+        <img
+          src={`${
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : data.user.photoURL
+          }`}
+          alt=""
+        />
         <span>Just Now</span>
       </div>
       <div className="msg-content">
-        <div className="text">How are you ?</div>
-        {/* <img src={dp1} alt="" /> */}
+        <div className="text">{message.text}</div>
+        {message.img && <img src={message.img} alt="img" />}
       </div>
     </div>
   );
