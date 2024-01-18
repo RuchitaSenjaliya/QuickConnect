@@ -23,8 +23,6 @@ export default function Chats() {
     currentUser.uid && getChats();
   }, [currentUser.uid]);
 
-  // console.log(Object.entries(chats));
-
   const handleSelect = (user) => {
     dispatch({ type: "CHANGE_USER", payload: user });
   };
@@ -33,7 +31,7 @@ export default function Chats() {
     <div className="chats">
       {Object.entries(chats)
         ?.sort((a, b) => b[1].date - a[1].date)
-        .map((chat) => {
+        ?.map((chat) => {
           return (
             <div
               className="single-user"

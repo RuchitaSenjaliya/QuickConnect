@@ -22,7 +22,7 @@ export default function Input() {
   const { data } = useContext(ChatContext);
 
   const handleSend = async () => {
-    if (!text) {
+    if (!text && !img) {
       return;
     }
     if (img) {
@@ -31,10 +31,7 @@ export default function Input() {
 
       uploadTask.on(
         (error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-          setErr(true);
+          console.log(error.code + ": " + error.message);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -62,17 +59,22 @@ export default function Input() {
     }
 
     await updateDoc(doc(db, "userChats", currentUser.uid), {
-      [data.chatId + ".lastMessage"]: { text },
+      [data.chatId + ".lastMessage"]: {
+        text,
+      },
       [data.chatId + ".date"]: serverTimestamp(),
     });
-    await updateDoc(doc(db, "userChats", data.user.uid), {
-      [data.chatId + ".lastMessage"]: { text },
-      [data.chatId + ".date"]: serverTimestamp(),
-    });
-    setText("");
-    setImg(undefined);
-  };
 
+    await updateDoc(doc(db, "userChats", data.user.uid), {
+      [data.chatId + ".lastMessage"]: {
+        text,
+      },
+      [data.chatId + ".date"]: serverTimestamp(),
+    });
+
+    setText("");
+    setImg(null);
+  };
   return (
     <div className="input">
       <input
@@ -92,8 +94,7 @@ export default function Input() {
           name="file"
           id="file"
           style={{ display: "none" }}
-          onChange={(e) => setImg(e.target.value)}
-          value={img}
+          onChange={(e) => setImg(e.target.files[0])}
         />
         <label htmlFor="file">
           <LuImagePlus size={20} />

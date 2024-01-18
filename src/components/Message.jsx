@@ -24,7 +24,6 @@ export default function Message({ message }) {
           }`}
           alt=""
         />
-        <span>Just Now</span>
       </div>
       <div className="msg-content">
         <div className="text">{message.text}</div>

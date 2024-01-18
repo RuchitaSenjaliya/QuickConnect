@@ -131,7 +131,7 @@ input:focus-visible {
 
 /* home page styling  */
 .home {
-    background-color: var(--main-bg);
+    background-color: #efefef;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -153,12 +153,12 @@ input:focus-visible {
 
 .home .sidebar {
     flex: 1;
-    background-color: #3e3c61;
+    background-color: #303841;
     height: 100%;
 }
 
 .home .sidebar .navbar {
-    background-color: #2f2d52;
+    background-color: #1d2024;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -238,8 +238,10 @@ input:focus-visible {
     color: #a8a8a8;
 }
 
+
+
 .single-user:hover {
-    background-color: #2f2d52;
+    background-color: #202429;
 }
 
 ::placeholder {
@@ -306,19 +308,17 @@ input:focus-visible {
     color: #a8a8a8;
 }
 
-.single-user:hover {
-    background-color: #2f2d52;
-}
+
 
 .home .chat {
     flex: 2.5;
-    background-color: #dddcf7;
+    background-color: #262e35;
     height: 100%;
 
 }
 
 .home .chat .chat-info {
-    background-color: #5d5b8d;
+    background-color: #1d2024;
     padding: 19px 16px;
     display: flex;
     align-items: center;
@@ -347,7 +347,7 @@ input:focus-visible {
 }
 
 .messages {
-    height: calc(100% - 122px);
+    height: calc(100% - 126px);
     overflow-y: scroll;
     padding: 10px;
 
@@ -399,17 +399,15 @@ input:focus-visible {
     width: 200px;
     height: 300px;
     object-fit: cover;
+    border-radius: 20px;
 }
 
 .messages .message.owner {
     flex-direction: row-reverse;
-
 }
 
 .messages .message.owner .msg-content {
     align-items: flex-end;
-
-
 }
 
 .messages .message.owner .msg-content .text {
@@ -420,17 +418,16 @@ input:focus-visible {
 }
 
 .input {
-    background-color: #fff;
+    background-color: #303841;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
 }
 
 .input input {
     border: none;
-    color: #000
+    color: #fff;
 }
 
 .input .send {
@@ -438,7 +435,6 @@ input:focus-visible {
     align-items: center;
     gap: 10px;
     color: lightgray;
-
 }
 
 .input .send .btn-send {
@@ -460,4 +456,47 @@ input:focus-visible {
 
 .error .error-msg {
     margin-bottom: 5px;
+}
+
+@media screen and (max-width: 426px) {
+    .home .sidebar .navbar .logo {
+        display: none;
+    }
+
+    .home .sidebar {
+        flex: 0;
+
+        width: 82px;
+    }
+
+    .home .sidebar .navbar .logout {
+        display: none;
+    }
+
+    .home .content {
+        width: 100%;
+    }
+
+    .messages .message .msg-content .text,
+    .messages .message.owner .msg-content .text {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .messages .message {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .messages .message .msg-info span {
+        display: none;
+    }
+
+    .chats .single-user .detail {
+        display: none;
+    }
+
+    .input .send .btn-send {
+        padding: 4px 8px;
+    }
 }
