@@ -23,6 +23,7 @@ input:focus-visible {
     font-weight: 600;
     font-family: 'Salsa', cursive;
     cursor: pointer;
+    color: #fff;
 }
 
 .logo span {
@@ -35,7 +36,7 @@ input:focus-visible {
 
 
 .form-wrapper {
-    background-color: #fff;
+    background-color: #202429;
     width: 500px;
     margin: auto;
     padding: 40px 60px;
@@ -44,7 +45,7 @@ input:focus-visible {
 }
 
 .form-container {
-    background-color: var(--main-bg);
+    background-color: #303841;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -60,7 +61,7 @@ input:focus-visible {
     text-align: center;
     font-size: 1.3rem;
     font-weight: 500;
-    color: #8b8b8b;
+    color: #e0e0e0;
 }
 
 .form-container input {
@@ -69,7 +70,7 @@ input:focus-visible {
     border-bottom: 1px solid #a2a2a2;
     padding: 8px;
     margin: 8px 0;
-    color: #000;
+    color: #fff;
 }
 
 .form-container ::placeholder {
@@ -156,6 +157,7 @@ input:focus-visible {
     background-color: #303841;
     height: 100%;
 }
+
 
 .home .sidebar .navbar {
     background-color: #1d2024;
@@ -456,6 +458,11 @@ input:focus-visible {
 
 .error .error-msg {
     margin-bottom: 5px;
+}
+
+.empty-msg {
+    height: calc(100% - 126px);
+    padding-top: 30%;
 }
 
 @media screen and (max-width: 426px) {

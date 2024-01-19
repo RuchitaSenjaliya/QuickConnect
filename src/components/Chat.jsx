@@ -8,10 +8,11 @@ import { ChatContext } from "../context/ChatContext";
 
 export default function Chat() {
   const { data } = useContext(ChatContext);
+
   return (
     <div className="chat">
       <div className="chat-info">
-        <div className="name">{data.user?.displayName}</div>
+        <div className="name">{data.user.displayName}</div>
         <div className="chat-icons">
           <span>
             <FaVideo size={20} />
@@ -24,7 +25,14 @@ export default function Chat() {
           </span>
         </div>
       </div>
-      <Messages />
+      {data.user.displayName ? (
+        <Messages />
+      ) : (
+        <div className="text-center text-white empty-msg">
+          Connect with your friends by selecting <br />
+          their chat from sidebar
+        </div>
+      )}
       <Input />
     </div>
   );

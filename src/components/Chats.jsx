@@ -26,7 +26,6 @@ export default function Chats() {
   const handleSelect = (user) => {
     dispatch({ type: "CHANGE_USER", payload: user });
   };
-
   return (
     <div className="chats">
       {Object.entries(chats)
@@ -37,6 +36,7 @@ export default function Chats() {
               className="single-user"
               key={chat[0]}
               onClick={() => handleSelect(chat[1].userInfo)}>
+              {console.log(chat)}
               <div className="dp">
                 <img src={chat[1].userInfo.photoURL} alt="" />
               </div>

@@ -86,9 +86,9 @@ export default function Input() {
         value={text}
       />
       <div className="send">
-        <span>
+        {/* <span>
           <MdAttachFile size={20} />
-        </span>
+        </span> */}
         <input
           type="file"
           name="file"

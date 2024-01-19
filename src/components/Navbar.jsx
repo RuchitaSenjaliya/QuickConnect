@@ -1,4 +1,4 @@
-import Logo from "./Logo";
+import Logo, { SmallLogo } from "./Logo";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useContext } from "react";
@@ -8,7 +8,7 @@ export default function Navbar() {
   const { currentUser } = useContext(AuthContext);
   return (
     <div className="navbar">
-      <Logo />
+      <SmallLogo />
       <div className="user">
         <div className="profile">
           <img

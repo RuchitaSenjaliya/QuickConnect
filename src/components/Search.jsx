@@ -101,7 +101,9 @@ export default function Search() {
         onChange={(e) => setUsername(e.target.value)}
         value={username}
       />
-      {err && <span>User not found.</span>}
+      {err && (
+        <span className="text-center text-white w-100">User not found.</span>
+      )}
       {/* {!user && <span>No user found</span>} */}
       {user && (
         <div className="single-user" onClick={handleSelect}>
