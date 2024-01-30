@@ -9,12 +9,12 @@ import Login from "./pages/Login";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import ProtectedRoute from "./route/ProtectedRoute";
-import Error from "./pages/Error";
+// import Error from "./pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    // errorElement: <Error />,
+    errorElement: <Error />,
     element: (
       <ProtectedRoute>
         <HomePage />

@@ -5,6 +5,7 @@ export default function Error() {
     <div className="error shadow">
       <div className="error-msg">Something Went Wrong</div>
       <Link to="/">Go back to home</Link>
+      <Link to="/login"> Login </Link>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { MdAttachFile } from "react-icons/md";
 import { LuImagePlus } from "react-icons/lu";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";

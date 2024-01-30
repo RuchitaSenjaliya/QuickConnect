@@ -339,9 +339,10 @@ input:focus-visible {
     gap: 20px;
     color: lightgray;
 
-    span {
-        cursor: pointer;
-    }
+}
+
+.home .chat .chat-info .chat-icons span {
+    cursor: pointer;
 }
 
 .messages::-webkit-scrollbar {
@@ -437,6 +438,10 @@ input:focus-visible {
     align-items: center;
     gap: 10px;
     color: lightgray;
+}
+
+.input .send label {
+    cursor: pointer;
 }
 
 .input .send .btn-send {

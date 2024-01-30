@@ -31,7 +31,11 @@ const Login = () => {
             <Logo />
           </div>
           <div className="form-title">Login</div>
-          {err && <span>Something went wrong</span>}
+          {err && (
+            <div className="text-center text-danger w-100 mt-3">
+              Something went wrong
+            </div>
+          )}
           <form action="" onSubmit={handleSubmit}>
             <input type="email" name="email" id="email" placeholder="Email" />
             <input type="password" name="pwd" id="pwd" placeholder="Password" />

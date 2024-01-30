@@ -21,10 +21,8 @@ const Register = () => {
     console.log(displayName);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
 
       const storageRef = ref(storage, displayName);
-
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
@@ -47,7 +45,6 @@ const Register = () => {
               email,
               photoURL: downloadURL,
             });
-
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");
           });
@@ -68,7 +65,11 @@ const Register = () => {
             <Logo />
           </div>
           <div className="form-title">Register</div>
-          {err && <span>Something went wrong</span>}
+          {err && (
+            <div className="text-center text-danger w-100 mt-3">
+              Something went wrong
+            </div>
+          )}
           <form action="" onSubmit={handleSubmit}>
             <input
               type="text"
